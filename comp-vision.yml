@@ -1,0 +1,11 @@
+name: comp-vision
+channels: !!python/tuple
+- !!python/unicode 'defaults'
+- !!python/unicode 'conda-forge'
+dependencies:
+- nb_conda
+- numpy
+- python=3.7.1
+- opencv
+- scipy
+- matplotlib
