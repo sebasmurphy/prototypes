@@ -8,4 +8,6 @@
 .ipynb_checkpoints/
 
 # website
+website/.cache/
 website/node_modules/
+website/dist/

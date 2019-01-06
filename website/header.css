@@ -1,0 +1,16 @@
+.header {
+  border: 1px solid black;
+  height: 150px;
+}
+.links {
+  color: blue;
+}
+.post {
+  border: 1px solid black;
+}
+.post.header {
+  border: 1px solid black;
+}
+.post.body {
+  border: 1px solid black;
+}
