@@ -7,7 +7,7 @@ class Link extends Component {
     this.clicked = this.clicked.bind(this);
   }
   clicked(address) {
-    console.log(address);
+    // console.log(address);
   }
   render() {
     const text = this.props.text;

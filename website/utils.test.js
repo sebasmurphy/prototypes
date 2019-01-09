@@ -1,4 +1,4 @@
-import { getAngles, findClosestAngle, getCoord } from './utils';
+import { getAngles, getCoord } from './utils';
 import * as utils from './utils';
 
 it('should calculate the correct number of angle slices', () => {
@@ -29,6 +29,15 @@ it('should get the correct coords', () => {
   expect(y3).toBeCloseTo(-Math.sqrt(2) / 2);
 });
 
+it('should get the correct coords', () => {
+  const theta = 0;
+  const radius = 1;
+  const tickLength = 1;
+  const result = { x1: 1, y1: 0, x2: 2, y2: 0 };
+  const coords = utils.getCoords2(theta, radius, tickLength);
+  expect(coords).toEqual(result);
+});
+
 it('should offset the angle', () => {
   const angle = 0;
   expect(utils.offsetAngle(angle)).toBe(0);
@@ -37,18 +46,26 @@ it('should offset the angle', () => {
 });
 
 it('should offset the coord', () => {
-  const center = [140, 140];
-  const coord = [-140, -5];
-  const coord2 = [10, 10];
-  expect(utils.offsetCoord(coord, center)).toEqual([0, 135]);
-  expect(utils.offsetCoord(coord2, center)).toEqual([150, 150]);
+  const center = { center_x: 140, center_y: 140 };
+  const coord = { x1: -130, y1: -5, x2: -140, y2: -5 };
+  const result = { x1: 10, y1: 135, x2: 0, y2: 135 };
+  expect(utils.offsetCoords(coord, center)).toEqual(result);
 });
 
 it('should generate the correct rays', () => {
   const slices = 60;
-  const length = 1;
-  const center = [124, 124];
-  const rays = utils.genRays(slices, length, center);
-  const ray1 = { theta: 0, x: 1, y: 0, tick: 45, mark: false };
+  const radius = 1;
+  const tickLength = 1;
+  const center = { center_x: 124, center_y: 124 };
+  const rays = utils.genRays(center, radius, tickLength, slices);
+  const ray1 = {
+    theta: 0,
+    x1: 125,
+    y1: 124,
+    x2: 126,
+    y2: 124,
+    tick: 45,
+    marked: false
+  };
   expect(rays[0]).toEqual(ray1);
 });
