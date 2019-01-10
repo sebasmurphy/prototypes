@@ -1,79 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import * as utils from './utils';
 import './clock.css';
 
-const getAttributes = (target, attributes) => {
-  return attributes.reduce((obj, attr) => {
-    const value = target.getAttribute(attr);
-    obj[attr] = value;
-    return obj;
-  }, {});
-};
+import Timer from './timer';
 
+const moment = require('moment');
 //give an x and y position in a html elemet
 //calculate the quadrant on the euclidean that the angle lies in.
-const findQuadrant = (center, x, y) => {
-  const { center_x, center_y } = center;
-  if (x >= center_x && y < center_y) {
-    // quadrant 1
-    const new_x = x - center_x;
-    const new_y = center_y - y;
-    return [new_x, new_y];
-  }
-  if (x < center_x && y < center_y) {
-    const new_x = -1 * (center_x - x);
-    const new_y = center_y - y;
-    return [new_x, new_y];
-  }
-  if (x < center_x && y >= center_y) {
-    const new_x = -1 * (center_x - x);
-    const new_y = -1 * (y - center_y);
-    return [new_x, new_y];
-    // quadrant 3
-  }
-  // quadrant 4
-  // x >= center_x && y >= center_y
-  const new_x = x - center_x;
-  const new_y = -1 * (y - center_y);
-  return [new_x, new_y];
-};
-
-const findClosest = (theta, arr) => {
-  let diff = 1000;
-  let index;
-  arr.forEach((point, idx) => {
-    const new_diff = Math.abs(theta - point.theta);
-    if (new_diff < diff) {
-      diff = new_diff;
-      index = idx;
-    }
-  });
-  return index;
-};
-
-const sliceIndices = (key, arr) => {
-  key = parseInt(key);
-  if (key === 0) {
-    return [...arr.slice(arr.length - 2, arr.length), ...arr.slice(0, 3)];
-  }
-  if (key === 1) {
-    return [...arr.slice(arr.length - 1, arr.length), ...arr.slice(0, 4)];
-  }
-  if (key === arr.length - 1) {
-    return [...arr.slice(arr.length - 3, arr.length), ...arr.slice(0, 2)];
-  }
-  if (key === arr.length - 2) {
-    return [...arr.slice(arr.length - 4, arr.length), ...arr.slice(0, 1)];
-  }
-  return arr.slice(key - 2, key + 3);
-};
-
-const setAttributes = (target, attributes) => {
-  const keys = Object.keys(attributes);
-  keys.forEach(key => {
-    target.setAttribute(key, attributes[key]);
-  });
-};
 
 export default class Clock extends Component {
   constructor(props) {
@@ -187,14 +120,17 @@ export default class Clock extends Component {
       );
     });
     return (
-      <div
-        className="clock"
-        // onMouseDown={this.mouseDown}
-        // onMouseMove={this.mouseMove}
-        // onMouseUp={this.mouseUp}
-      >
-        <svg viewBox="0 0 250 250">{rays}</svg>
-      </div>
+      <Fragment>
+        <div
+          className="clock"
+          // onMouseDown={this.mouseDown}
+          // onMouseMove={this.mouseMove}
+          // onMouseUp={this.mouseUp}
+        >
+          <svg viewBox="0 0 250 250">{rays}</svg>
+        </div>
+        <Timer />
+      </Fragment>
     );
   }
 }
