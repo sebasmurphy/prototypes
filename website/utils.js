@@ -30,7 +30,7 @@ export const getCoords2 = (angle, radius, tickLength) => {
 };
 
 export const offsetAngle = angle => {
-  return (angle + Math.PI) % Math.PI;
+  return (angle + 2 * Math.PI) % (2 * Math.PI);
 };
 
 export const offsetCoords = (coords, center) => {
@@ -43,11 +43,41 @@ export const offsetCoords = (coords, center) => {
   return { x1, y1, x2, y2 };
 };
 
-export const findClosestAngle = (angle, arr) => {};
+export const lastIndex = (theta, angles) => {
+  for (let i = 0; i < angles.length; i++) {
+    if (theta < angles[i]['theta']) {
+      return i - 1;
+    }
+  }
+  return angles.length - 1;
+};
 
-export const findIndicies = (angle, arr) => {};
+export const markAngles = (theta, angles) => {
+  return angles.map(angle => {
+    if (theta >= angle['theta']) {
+      angle['marked'] = true;
+    } else {
+      angle['marked'] = false;
+    }
+    return angle;
+  });
+};
 
-export const genRays = (center, radius, ticketLength, slices) => {
+// export const findClosestAngle = (angle, arr) => {};
+
+// export const findIndicies = (angle, arr) => {};
+
+export const offsetMouse = (position, center) => {
+  const { x, y } = position;
+  const { center_x, center_y } = center;
+  const offset_x = x - center_x;
+  const offset_y = y - center_y;
+  const theta = offsetAngle(Math.atan2(offset_y, offset_x));
+  // const corrected_theta = offsetAngle(theta);
+  return { x: offset_x, y: offset_y, theta };
+};
+
+export const genRays = (center, radius, tickLength, slices) => {
   const _30 = Math.PI / 6;
   const _45 = Math.PI / 2;
   const _60 = Math.PI / 3;
@@ -55,7 +85,7 @@ export const genRays = (center, radius, ticketLength, slices) => {
   const rays = angles.map(theta => {
     let tick = 0;
     let thetaRotate = theta + Math.PI / 2;
-    let coords = getCoords2(theta, radius, ticketLength);
+    let coords = getCoords2(theta, radius, tickLength);
     coords = offsetCoords(coords, center);
     if (thetaRotate % _30 === 0) {
       tick = 30;
@@ -75,6 +105,11 @@ export const genRays = (center, radius, ticketLength, slices) => {
     };
   });
   return rays;
+};
+
+export const lengthen = (theta, center, radius, tickLength) => {
+  let coords = getCoords2(theta, radius, tickLength + 10);
+  return offsetCoords(coords, center);
 };
 
 export const getAttributes = (target, attributes) => {

@@ -15,9 +15,9 @@ export default class Timer extends Component {
       seconds: 0
     };
     this.decrementTime = this.decrementTime.bind(this);
-    this.interval = setInterval(this.decrementTime, 1000);
     this.handleChange = this.handleChange.bind(this);
     this.handleRun = this.handleRun.bind(this);
+    this.interval = setInterval(this.decrementTime, 1000);
   }
   decrementTime() {
     const { running } = this.state;

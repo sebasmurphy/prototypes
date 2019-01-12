@@ -38,12 +38,12 @@ it('should get the correct coords', () => {
   expect(coords).toEqual(result);
 });
 
-it('should offset the angle', () => {
-  const angle = 0;
-  expect(utils.offsetAngle(angle)).toBe(0);
-  const angle1 = -Math.PI;
-  expect(utils.offsetAngle(angle)).toBe(0);
-});
+// it('should offset the angle', () => {
+//   const angle = 0;
+//   expect(utils.offsetAngle(angle)).toBe(Math.PI / 2);
+//   const angle1 = -Math.PI / 2;
+//   expect(utils.offsetAngle(angle1)).toBe(0);
+// });
 
 it('should offset the coord', () => {
   const center = { center_x: 140, center_y: 140 };
@@ -68,4 +68,45 @@ it('should generate the correct rays', () => {
     marked: false
   };
   expect(rays[0]).toEqual(ray1);
+});
+
+// it('should offset the mouse position correctly', () => {
+//   const center = { center_x: 10, center_y: 10 };
+//   const position = { x: 20, y: 10 };
+//   const result = { x: 10, y: 0, theta: Math.PI / 2 };
+//   expect(utils.offsetMouse(position, center)).toEqual(result);
+// });
+
+it('should select all of the angle greater than itself', () => {
+  const theta = Math.PI;
+  const angles = [
+    { theta: 0, marked: false },
+    { theta: Math.PI / 2, marked: false },
+    { theta: Math.PI, marked: false },
+    { theta: 2 * Math.PI, marked: false }
+  ];
+  const result = [
+    { theta: 0, marked: true },
+    { theta: Math.PI / 2, marked: true },
+    { theta: Math.PI, marked: true },
+    { theta: 2 * Math.PI, marked: false }
+  ];
+  expect(utils.markAngles(theta, angles)).toEqual(result);
+});
+
+it('should return the index of the last angle touched', () => {
+  let theta = Math.PI;
+  const angles = [
+    { theta: 0, marked: false },
+    { theta: Math.PI / 2, marked: false },
+    { theta: Math.PI, marked: false },
+    { theta: 2 * Math.PI, marked: false }
+  ];
+  expect(utils.lastIndex(theta, angles)).toBe(2);
+
+  theta = 2 * Math.PI;
+  expect(utils.lastIndex(theta, angles)).toBe(3);
+
+  theta = -2;
+  expect(utils.lastIndex(theta, angles)).toBe(-1);
 });
