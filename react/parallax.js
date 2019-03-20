@@ -39,10 +39,12 @@ class Parallax extends Component {
     const centerX = event.currentTarget.width / 2;
     //how far away in the x direction is the cursor from the center
     const leftPosition = clientX - offsetX;
-    const distanceCenter = leftPosition - centerX;
+    //distance from center -> positive if moving right, negative if moving left
+    const distanceCenter = centerX - leftPosition;
+    let margin = distanceCenter; //do some computation here
 
-    const newPostion = this.position - leftPosition;
-    this.position = leftPostion;
+    // const newPostion = this.position - leftPosition;
+    // this.position = leftPostion;
     // console.log(event.currentTarget);
     // console.log(event.clientX);
     // console.log(event.target.offsetLeft);
